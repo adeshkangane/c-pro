@@ -1,0 +1,71 @@
+//     adjmatrix 
+
+
+#include<stdio.h> 
+#define V 5
+
+void init(int arr[][V], int v) {
+    int i, j;
+    for(i = 0; i < v; i++) {
+        for(j = 0; j < v; j++) {
+            arr[i][j] = 0;
+        }
+    }
+}
+
+void addEdge(int arr[][V], int src, int dest) {
+    arr[src][dest] = 1;
+}
+
+void printAdjMatrix(int arr[][V], int v) {
+    int i, j;
+    printf("\nAdjacency Matrix:\n");
+    for(i = 0; i < v; i++) {
+        for(j = 0; j < v; j++) {
+            printf("%d ", arr[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void degree(int adjMatrix[][V], int x, int v) {
+    int ind = 0, outd = 0, total = 0, j;
+    
+    for(j = 0; j < v; j++) {
+        if(adjMatrix[x][j] == 1)
+            outd++;
+        if(adjMatrix[j][x] == 1)
+            ind++;
+    }
+    
+    total = ind + outd;
+    printf("v%d   %d   %d   %d\n", x, ind, outd, total);
+}
+
+int main() {
+    int adjMatrix[V][V];
+    int v, i, v1, v2;
+    printf("Enter the number of vertices: ");
+    scanf("%d", &v);
+    init(adjMatrix, v);
+    printf("Enter the edges (src dest) between vertices (0 to %d), enter -1 -1 to stop:\n", v - 1);
+    while(1) {
+        printf("Enter an edge (src dest): ");
+        scanf("%d %d", &v1, &v2);
+        if(v1 == -1 && v2 == -1) {
+            break;
+        }
+        if(v1 >= 0 && v1 < v && v2 >= 0 && v2 < v) {
+            addEdge(adjMatrix, v1, v2);
+        } else {
+            printf("Invalid vertices. Please enter valid vertices (0 to %d).\n", v - 1);
+        }
+    }
+    printAdjMatrix(adjMatrix, v);
+    printf("\nVertex  In-degree  Out-degree  Total degree\n");
+    for(i = 0; i < v; i++) {
+        degree(adjMatrix, i, v);
+    }
+
+    return 0;
+}
