@@ -1,0 +1,70 @@
+  // dfs bfs 
+
+#include <stdio.h>
+
+int n, i, j, visited[10], queue[10], front = -1, rear = -1;
+int adj[10][10];
+
+void bfs(int v) {
+    front = rear = -1;  
+    visited[v] = 1;      
+    queue[++rear] = v;   
+
+    while (front != rear) {
+        int current = queue[++front];
+        printf("%d -> ", current + 1); 
+        
+        for (i = 0; i < n; i++) {
+            if (adj[current][i] && !visited[i]) {
+                visited[i] = 1;  
+                queue[++rear] = i; 
+            }
+        }
+    }
+}
+
+void dfs(int v) {
+    visited[v] = 1;
+    printf("%d -> ", v + 1);  
+    
+    for (i = 0; i < n; i++) {
+        if (adj[v][i] == 1 && !visited[i]) {
+            dfs(i);
+        }
+    }
+}
+
+int main() {
+    int v;
+    printf("Enter the number of vertices: ");
+    scanf("%d", &n);
+
+    
+    for (i = 0; i < n; i++) {
+        visited[i] = 0;
+    }
+
+    printf("Enter graph data in matrix form:\n");
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            scanf("%d", &adj[i][j]);
+        }
+    }
+
+    printf("Enter the starting vertex: ");
+    scanf("%d", &v);
+    v--;  
+
+    printf("BFS Traversal starting from vertex %d:\n", v + 1);
+    bfs(v);
+    
+   
+    for (i = 0; i < n; i++) {
+        visited[i] = 0;
+    }
+    
+    printf("\nDFS Traversal starting from vertex %d:\n", v + 1);
+    dfs(v);
+
+    return 0;
+}
